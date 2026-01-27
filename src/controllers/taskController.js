@@ -14,12 +14,19 @@ const createTask = async (req, res, next) => {
     }
 };
 
-// @desc    Get all tasks
-// @route   GET /api/tasks
-// @access  Public
+// @desc    Get all tasks (with optional filters)
+// @route   GET /api/tasks?status=&category=
+// @access  Private
 const getTasks = async (req, res, next) => {
     try {
-        const tasks = (await Task.find()).toSorted({ createdAt: -1 });
+        const { status, category } = req.query;
+
+        // Build query object
+        let query = { user: req.user._id }; // Only tasks for logged-in user
+        if (status) query.status = status;          // Filter by status
+        if (category) query.cateogry = category;    // Filter by category
+
+        let tasks = (await Task.find(query)).toSorted({ createdAt: -1 });
 
         // Auto-mark overdue tasks
         const now = new Date();
