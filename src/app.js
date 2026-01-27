@@ -7,6 +7,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Routes
+app.use("/api/tasks", require("./routes/taskRoutes"));
+
 // Health check
 app.get("/health", (req, res) => {
     res.status(200).json({ status: "OK" });
