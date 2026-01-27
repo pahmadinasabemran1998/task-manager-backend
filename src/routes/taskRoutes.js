@@ -1,9 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const taskController = require("../controllers/taskController");
+const { validateTask } = require("../middlewares/validation");
 
-// Placeholder routes
-router.get("/", (req, res) => {
-    res.status(200).json({ message: "Tasks endpoint" });
-});
+// CRUD routes
+router.post("/", validateTask, taskController.createTask);
+router.get("/", taskController.getTasks);
+router.put("/:id", taskController.updateTaskStatus);
+router.delete("/:id", taskController.deleteTask);
 
 module.exports = router;
