@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const taskController = require("../controllers/taskController");
-const { validateTask } = require("../middlewares/validation");
+const { validateTask } = require("../middlewares/validate");
 const { protect } = require("../middlewares/auth");
 
 // Apply protect middleware
