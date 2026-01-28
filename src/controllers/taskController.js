@@ -7,7 +7,13 @@ const createTask = async (req, res, next) => {
     try {
         const { title, category, deadline, status } = req.body;
 
-        const task = await Task.create({ title, category, deadline, status });
+        const task = await Task.create({ 
+            user: req.user._id,
+            title, 
+            category, 
+            deadline, 
+            status,
+        });
         res.status(201).json(task);
     } catch (err) {
         next(err);
