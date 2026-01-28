@@ -29,10 +29,11 @@ const getTasks = async (req, res, next) => {
 
         // Build query object
         let query = { user: req.user._id }; // Only tasks for logged-in user
-        if (status) query.status = status;          // Filter by status
-        if (category) query.cateogry = category;    // Filter by category
+        if (status) query.status = status;
+        if (category) query.category = category; // ✅ fixed typo
 
-        let tasks = (await Task.find(query)).toSorted({ createdAt: -1 });
+        // Sort by createdAt descending in DB
+        let tasks = await Task.find(query).sort({ createdAt: -1 });
 
         // Auto-mark overdue tasks
         const now = new Date();
